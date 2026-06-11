@@ -1,5 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "functions": {
+    "api/reflect.js": {
+      "memory": 128,
+      "maxDuration": 30
+    }
+  }
 }
