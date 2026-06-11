@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radical Forgiveness — 30-Day Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Lora', Georgia, serif; background: #F7F8FA; color: #1A1A1A; min-height: 100vh; }
+  button { font-family: inherit; cursor: pointer; }
+  textarea, input { font-family: inherit; }
+
+  /* NAV */
+  #header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.75rem; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .logo-row { display: flex; align-items: center; gap: 0.75rem; }
+  .logo-bug { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .logo-title { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 800; color: #1A1A1A; }
+  .logo-sub { font-size: 0.62rem; color: #9CA3AF; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1px; }
+  .nav-pills { display: flex; gap: 0.2rem; background: #F3F4F6; border-radius: 12px; padding: 0.25rem; }
+  .nav-pill { background: transparent; border: none; border-radius: 9px; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 500; color: #9CA3AF; transition: all 0.18s; }
+  .nav-pill.active { background: white; color: #1A1A1A; font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+  /* VIEWS */
+  .view { display: none; max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .view.active { display: block; }
+
+  /* CARDS */
+  .card { background: white; border-radius: 18px; padding: 1.25rem 1.4rem; margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+
+  /* HERO GRADIENT */
+  .hero-card { border-radius: 22px; padding: 2rem 2rem 1.75rem; margin-bottom: 1.25rem; position: relative; overflow: hidden; color: white; }
+  .hero-card .orb { position: absolute; top: -30px; right: -30px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+  .hero-card .orb2 { position: absolute; bottom: -40px; left: -10px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+  .hero-eyebrow { font-size: 0.65rem; color: rgba(255,255,255,0.75); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.6rem; font-family: 'Lora', serif; position: relative; }
+  .hero-title { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 1rem; position: relative; }
+  .hero-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; position: relative; }
+  .hero-badge { background: rgba(255,255,255,0.22); border-radius: 10px; padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 600; font-family: 'Lora', serif; }
+
+  /* PROGRESS BAR */
+  .bar-bg { background: #F3F4F6; border-radius: 999px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
+
+  /* WEEK GRID */
+  .week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
+  .week-cell { background: white; border-radius: 16px; padding: 1rem 1.1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer; border-top: 3px solid transparent; transition: transform 0.18s, box-shadow 0.18s; }
+  .week-cell:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .week-cell-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+  .week-cell-title { font-family: 'Fraunces', serif; font-size: 0.9rem; font-weight: 800; margin-bottom: 6px; }
+  .week-cell-meta { font-size: 0.7rem; color: #9CA3AF; margin-top: 5px; }
+
+  /* TABS */
+  .week-tabs { display: flex; gap: 0.3rem; overflow-x: auto; padding-bottom: 0; border-bottom: 1px solid #F0F0F0; margin-bottom: 1.75rem; scrollbar-width: none; }
+  .week-tabs::-webkit-scrollbar { display: none; }
+  .week-tab { background: transparent; border: none; border-bottom: 2px solid transparent; padding: 0.7rem 1.1rem; font-size: 0.85rem; font-weight: 500; color: #9CA3AF; white-space: nowrap; transition: all 0.18s; border-radius: 6px 6px 0 0; }
+  .week-tab.active { font-weight: 700; border-bottom-color: currentColor; }
+
+  /* SECTION HEADER */
+  .section-hdr { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .section-icon-blob { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0; }
+  .section-hdr-title { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; }
+  .section-hdr-meta { font-size: 0.7rem; color: #9CA3AF; }
+
+  /* DAY CARD */
+  .day-card { background: white; border-radius: 16px; padding: 1rem 1.2rem; margin-bottom: 0.65rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1.5px solid transparent; border-top: 3px solid #F0F0F0; transition: transform 0.18s; }
+  .day-card.today { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  .day-card.locked { opacity: 0.45; }
+  .day-card:hover:not(.locked) { transform: translateY(-1px); }
+  .day-card-row { display: flex; gap: 0.85rem; align-items: flex-start; }
+  .day-icon-blob { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .day-num { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+  .badge-row { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 4px; }
+  .badge { border-radius: 5px; padding: 1px 8px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em; }
+  .day-checkin { font-size: 0.88rem; line-height: 1.55; color: #4B5563; font-style: italic; margin-bottom: 0.75rem; }
+  .day-actions { display: flex; gap: 0.55rem; flex-wrap: wrap; }
+  .day-btn { border-radius: 9px; padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 600; border: 1.5px solid #E5E7EB; background: #F9FAFB; color: #6B7280; transition: all 0.18s; }
+  .day-btn:hover { background: #F3F4F6; }
+  .day-btn.has-journal { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent); }
+  .day-btn.complete-btn { background: white; }
+  .day-btn.complete-btn.done { color: white; border-color: transparent; }
+  .locked-msg { font-size: 0.78rem; color: #9CA3AF; font-style: italic; margin-top: 4px; }
+
+  /* STATS */
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+  .stat-cell { background: white; border-radius: 16px; padding: 1rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .stat-icon { font-size: 1.5rem; margin-bottom: 4px; }
+  .stat-val { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 800; color: #1A1A1A; }
+  .stat-label { font-size: 0.68rem; color: #9CA3AF; margin-top: 2px; }
+
+  /* RING */
+  .ring-wrap { display: flex; justify-content: center; margin-bottom: 2rem; }
+
+  /* MODAL OVERLAY */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.22s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box { background: white; border-radius: 22px; max-width: 520px; width: 100%; box-shadow: 0 32px 80px rgba(0,0,0,0.18); overflow: hidden; transform: translateY(16px) scale(0.98); transition: transform 0.22s; }
+  .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+  .journal-box { max-width: 580px; max-height: 90vh; display: flex; flex-direction: column; }
+  .modal-header { padding: 1.5rem 1.75rem 1.25rem; color: white; position: relative; overflow: hidden; flex-shrink: 0; }
+  .modal-header .orb { position: absolute; top: -20px; right: -20px; width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,0.13); }
+  .modal-header-label { font-size: 0.62rem; color: rgba(255,255,255,0.72); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; position: relative; }
+  .modal-header-title { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 700; position: relative; }
+  .modal-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .close-btn { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 8px; width: 30px; height: 30px; font-size: 1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .modal-body { padding: 1.5rem 1.75rem 2rem; overflow-y: auto; flex: 1; }
+  .task-box { border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 1.1rem; font-size: 0.9rem; line-height: 1.6; }
+  .prompt-text { font-family: 'Lora', serif; font-style: italic; font-size: 0.95rem; color: #4B5563; line-height: 1.7; margin-bottom: 0.75rem; }
+  textarea.journal-textarea { width: 100%; border: 2px solid #E5E7EB; border-radius: 12px; padding: 0.9rem 1rem; font-size: 0.92rem; resize: vertical; outline: none; line-height: 1.75; color: #1A1A1A; background: #FAFAFA; transition: all 0.2s; min-height: 200px; }
+  .reflection-box { border-radius: 14px; padding: 1.25rem; margin-top: 1.25rem; border: 1.5px solid transparent; }
+  .reflection-label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .reflection-text { font-family: 'Lora', serif; font-style: italic; font-size: 0.9rem; line-height: 1.85; white-space: pre-wrap; }
+  .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap; margin-top: 1.25rem; }
+  .btn-gray { background: #F3F4F6; border: none; color: #6B7280; border-radius: 10px; padding: 0.6rem 1.25rem; font-size: 0.88rem; font-weight: 600; }
+  .btn-color { border: none; color: white; border-radius: 10px; padding: 0.6rem 1.5rem; font-size: 0.9rem; font-weight: 800; transition: filter 0.18s; }
+  .btn-color:hover { filter: brightness(1.08); }
+  .btn-reflect { border-radius: 10px; padding: 0.6rem 1.25rem; font-size: 0.88rem; font-weight: 700; border: 1.5px solid transparent; transition: all 0.18s; }
+  .error-text { color: #DC2626; font-size: 0.82rem; margin-top: 0.75rem; }
+  .loader { display: inline-block; width: 14px; height: 14px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 4px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* GATE */
+  .gate-body { padding: 1.5rem 1.75rem 2rem; }
+  .gate-question { font-size: 1rem; color: #1A1A1A; line-height: 1.7; margin-bottom: 1.25rem; }
+  textarea.gate-textarea { width: 100%; border: 2px solid #E5E7EB; border-radius: 12px; padding: 0.85rem 1rem; font-size: 0.95rem; resize: none; outline: none; color: #1A1A1A; background: #FAFAFA; transition: all 0.2s; }
+
+  /* PROGRESS WEEK BAR */
+  .week-bar-card { background: white; border-radius: 16px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .week-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .week-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+  /* REFLECTIONS BANNER */
+  .refl-banner { border-radius: 18px; padding: 1.4rem; text-align: center; margin-top: 0.6rem; border: 1.5px solid #F0E0FF; background: linear-gradient(135deg,#FFF8ED,#F8EEFF); }
+
+  /* TODAY BAND */
+  .today-band { display: flex; justify-content: space-between; align-items: center; border-radius: 10px; padding: 0.7rem 1rem; margin-bottom: 1rem; }
+  .today-row { display: flex; gap: 0.85rem; align-items: flex-start; margin-bottom: 1rem; }
+  .full-btn { width: 100%; border: none; color: white; border-radius: 13px; padding: 0.85rem; font-size: 0.92rem; font-weight: 800; font-family: 'Lora', serif; transition: filter 0.18s; }
+  .full-btn:hover { filter: brightness(1.07); }
+
+  .section-wrap { margin-bottom: 2rem; }
+  .prog-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+  @media (max-width: 560px) {
+    .week-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    #header { padding: 0.85rem 1rem; }
+    .view { padding: 1.5rem 1rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="logo-row">
+    <div class="logo-bug" id="logo-bug">🕊️</div>
+    <div>
+      <div class="logo-title">Radical Forgiveness</div>
+      <div class="logo-sub" id="day-counter">Day 1 of 30</div>
+    </div>
+  </div>
+  <nav class="nav-pills">
+    <button class="nav-pill active" onclick="showView('home')">🏠 Home</button>
+    <button class="nav-pill" onclick="showView('journey')">🗺️ Journey</button>
+    <button class="nav-pill" onclick="showView('progress')">📊 Progress</button>
+  </nav>
+</header>
+
+<!-- HOME VIEW -->
+<div class="view active" id="view-home">
+  <div class="hero-card" id="hero-card">
+    <div class="orb"></div><div class="orb2"></div>
+    <div class="hero-eyebrow">30-Day Healing Journey</div>
+    <h1 class="hero-title">Healing is not forgetting.<br><em>It's reclaiming.</em></h1>
+    <div class="hero-badges" id="hero-badges"></div>
+  </div>
+  <div class="card">
+    <div class="today-band" id="today-band"></div>
+    <div class="today-row" id="today-row"></div>
+    <button class="full-btn" id="today-btn" onclick="openTodayJournal()">Write Today's Entry →</button>
+  </div>
+  <div class="card">
+    <div class="prog-row">
+      <span style="font-size:0.85rem;font-weight:700;color:#374151;">Overall Progress</span>
+      <span style="font-size:0.78rem;color:#9CA3AF;" id="prog-meta"></span>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="prog-bar" style="width:0%"></div></div>
+  </div>
+  <div class="week-grid" id="week-grid"></div>
+</div>
+
+<!-- JOURNEY VIEW -->
+<div class="view" id="view-journey">
+  <div class="week-tabs" id="week-tabs"></div>
+  <div id="journey-content"></div>
+</div>
+
+<!-- PROGRESS VIEW -->
+<div class="view" id="view-progress">
+  <h2 style="font-family:'Fraunces',serif;font-size:1.8rem;font-weight:800;margin-bottom:0.3rem;">Your Healing Map</h2>
+  <p style="color:#6B7280;font-size:0.9rem;margin-bottom:2rem;" id="progress-sub"></p>
+  <div class="ring-wrap"><svg width="170" height="170" viewBox="0 0 170 170" id="ring-svg">
+    <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F9C784"/><stop offset="33%" stop-color="#3DC87A"/>
+      <stop offset="66%" stop-color="#4A8AFF"/><stop offset="100%" stop-color="#AA4AFF"/>
+    </linearGradient></defs>
+    <circle cx="85" cy="85" r="72" fill="none" stroke="#F3F4F6" stroke-width="11"/>
+    <circle cx="85" cy="85" r="72" fill="none" stroke="url(#rg)" stroke-width="11"
+      stroke-dasharray="452.4" stroke-dashoffset="452.4"
+      stroke-linecap="round" transform="rotate(-90 85 85)" id="ring-circle" style="transition:stroke-dashoffset 0.8s ease"/>
+    <text x="85" y="79" text-anchor="middle" font-size="26" fill="#1A1A1A" font-weight="800" font-family="Fraunces,serif" id="ring-pct">0%</text>
+    <text x="85" y="99" text-anchor="middle" font-size="11" fill="#9CA3AF" font-family="Lora,serif">complete</text>
+  </svg></div>
+  <div class="stat-grid" id="stat-grid"></div>
+  <div id="week-bars"></div>
+  <div class="refl-banner">
+    <div style="font-size:2rem;margin-bottom:4px;">✨</div>
+    <div class="stat-val" id="refl-count">0</div>
+    <div style="font-size:0.82rem;color:#6B7280;">AI reflections received</div>
+    <div style="font-size:0.8rem;color:#9CA3AF;margin-top:8px;font-style:italic;" id="courage-msg" hidden>Every word you've written is an act of courage.</div>
+  </div>
+</div>
+
+<!-- GATE MODAL -->
+<div class="modal-overlay" id="gate-modal" onclick="handleOverlayClick(event,'gate-modal')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header" id="gate-header">
+      <div class="orb"></div>
+      <div class="modal-header-label" id="gate-label"></div>
+      <div class="modal-header-title" id="gate-title"></div>
+    </div>
+    <div class="gate-body">
+      <p class="gate-question" id="gate-question"></p>
+      <textarea class="gate-textarea" id="gate-answer" rows="3" placeholder="" oninput="onGateInput()"></textarea>
+      <div class="modal-actions">
+        <button class="btn-gray" onclick="closeModal('gate-modal')">Not yet</button>
+        <button class="btn-color" id="gate-submit" onclick="submitGate()" style="opacity:0.4;cursor:default;">I'm ready →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOURNAL MODAL -->
+<div class="modal-overlay" id="journal-modal" onclick="handleOverlayClick(event,'journal-modal')">
+  <div class="modal-box journal-box" onclick="event.stopPropagation()">
+    <div class="modal-header" id="journal-header">
+      <div class="orb"></div>
+      <div class="modal-header-row">
+        <div>
+          <div class="modal-header-label" id="journal-label"></div>
+          <div class="modal-header-title" id="journal-title"></div>
+        </div>
+        <button class="close-btn" onclick="closeModal('journal-modal')">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="task-box" id="journal-task"></div>
+      <p class="prompt-text" id="journal-prompt"></p>
+      <textarea class="journal-textarea" id="journal-text" placeholder="Write freely. This space is yours alone." oninput="onJournalInput()"></textarea>
+      <div class="reflection-box" id="reflection-box" hidden>
+        <div class="reflection-label"><span>✨</span><span id="refl-day-label"></span></div>
+        <div class="reflection-text" id="reflection-text"></div>
+      </div>
+      <p class="error-text" id="journal-error" hidden></p>
+      <div class="modal-actions">
+        <button class="btn-reflect" id="reflect-btn" onclick="doReflect()">✨ Get AI Reflection</button>
+        <button class="btn-color" id="journal-save-btn" onclick="saveJournal()">Save & Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+const DAYS = [
+  {day:1,week:1,section:1,icon:"🕯️",sectionTitle:"Identify the Pain",stage:"Awareness",gateQuestion:"Before you begin this section, take a breath. What is one word that describes how you feel when you think about this pain?",gatePlaceholder:"e.g. heavy, angry, lost, numb…",checkin:"Write down what happened — just the facts, no judgment. Who was involved, what occurred, and when.",journalPrompt:"Tell the story of what happened as plainly as you can. Don't analyze it yet — just describe it. What did you see, hear, and feel in that moment?"},
+  {day:2,week:1,section:1,icon:"🕯️",sectionTitle:"Identify the Pain",stage:"Awareness",checkin:"Write about why this still feels unresolved. What does carrying this pain cost you — in energy, in relationships, in peace?",journalPrompt:"When this pain comes up in your life, what does it feel like in your body? Where do you carry it — your chest, your jaw, your gut? And what does it cost you to keep holding it?"},
+  {day:3,week:1,section:2,icon:"🌊",sectionTitle:"Connect with Emotions",stage:"Awareness",gateQuestion:"You're moving into emotional territory now. What do you need in this moment to feel safe enough to go there?",gatePlaceholder:"e.g. quiet, a candle lit, my Bible nearby, no interruptions…",checkin:"Name at least five emotions you feel when you think about this situation. Don't filter — write them all.",journalPrompt:"List every emotion you can name. For each one, finish this sentence: 'I feel [emotion] because…' Don't rush. Let each one be fully said."},
+  {day:4,week:1,section:2,icon:"🌊",sectionTitle:"Connect with Emotions",stage:"Awareness",checkin:"For each emotion you named yesterday, ask: where do I feel this in my body? Write what you notice.",journalPrompt:"Pick the emotion that is loudest right now. Sit with it for two minutes before you write. Then describe it fully — what does it feel like, what does it remind you of, and what does it want you to know?"},
+  {day:5,week:1,section:3,icon:"📖",sectionTitle:"Seek Cultural & Historical Context",stage:"Awareness",gateQuestion:"Who is a Black writer, elder, or ancestor whose words have ever made you feel less alone?",gatePlaceholder:"e.g. James Baldwin, my grandmother, Toni Morrison, bell hooks…",checkin:"Read one essay, poem, or passage by a Black writer or thinker. Underline or note what hits home for you.",journalPrompt:"What did you read today? Write out the line or idea that landed hardest — and then write about why. What does it affirm about what you've been carrying?"},
+  {day:6,week:1,section:3,icon:"📖",sectionTitle:"Seek Cultural & Historical Context",stage:"Awareness",checkin:"Write about how your personal pain might connect to something larger — generational, cultural, or historical.",journalPrompt:"How does what you're carrying connect to something bigger than just this one situation? What have the people before you carried that may have shaped how you respond to pain, betrayal, or injustice?"},
+  {day:7,week:1,section:3,icon:"📖",sectionTitle:"Seek Cultural & Historical Context",stage:"Awareness",checkin:"Rest today. Let what you've read and written this week settle. Write one sentence about what you're carrying differently now than on Day 1.",journalPrompt:"You've spent a week sitting with this pain. What feels different about how you understand it now compared to when you started? What has awareness — just naming it — already begun to shift?"},
+  {day:8,week:2,section:4,icon:"🪞",sectionTitle:"Reflect on Personal Reactions",stage:"Ownership",gateQuestion:"Without judging yourself — how has this pain shown up in your behavior or decisions? Just one honest example.",gatePlaceholder:"e.g. I pull away when I feel close to someone…",checkin:"Write the full story you've been telling yourself about this situation — unfiltered, uncensored.",journalPrompt:"What is the story you've been living inside? Write it out as if you were explaining it to someone who knows nothing about it. Don't edit yourself. Just let it come out."},
+  {day:9,week:2,section:4,icon:"🪞",sectionTitle:"Reflect on Personal Reactions",stage:"Ownership",checkin:"Identify one belief this pain created in you. Is that belief protecting you — or limiting you?",journalPrompt:"What belief about yourself, other people, or the world did this pain plant in you? Write it plainly. Then ask yourself: is this belief still serving me, or is it a wall I built for protection that I no longer need?"},
+  {day:10,week:2,section:4,icon:"🪞",sectionTitle:"Reflect on Personal Reactions",stage:"Ownership",checkin:"Rewrite the opening line of the story from Day 8 — this time with compassion toward yourself instead of blame.",journalPrompt:"Take the harshest thing you've believed about yourself in relation to this pain. Now rewrite it as if a wise, loving elder were speaking it back to you — with full knowledge of everything you've been through. What do they say instead?"},
+  {day:11,week:2,section:5,icon:"✉️",sectionTitle:"Build Empathy",stage:"Ownership",gateQuestion:"This section asks you to extend compassion — even toward someone who hurt you. Are you ready for that, or do you need more time?",gatePlaceholder:"e.g. I'm ready. / I need one more day. / I'll try.",checkin:"Write a letter to yourself — generous, tender, no conditions. Tell yourself what you needed to hear when the pain was at its worst.",journalPrompt:"Begin: 'Dear [your name], I see you. I know what you've been carrying…' Don't stop until you've said everything you wish someone had said to you. Give yourself the words you were never given."},
+  {day:12,week:2,section:5,icon:"✉️",sectionTitle:"Build Empathy",stage:"Ownership",checkin:"Write three sentences about the humanity of the person or system that caused your pain — without excusing or condoning what they did.",journalPrompt:"This is not about forgiving what they did. It's about seeing the human behind the harm. What were they carrying — their own wounds, their own blindness, their own fear? What does it feel like to hold that alongside your pain without collapsing either one?"},
+  {day:13,week:2,section:6,icon:"🌿",sectionTitle:"Grounding Practices",stage:"Ownership",gateQuestion:"What is one practice — physical, spiritual, or creative — that has ever genuinely calmed you?",gatePlaceholder:"e.g. prayer, a walk, drumming, cooking, silence, music…",checkin:"Do your chosen grounding practice for at least 15 minutes today. Notice what shifts — in your body, your breathing, your mind.",journalPrompt:"Describe your grounding practice today in sensory detail. What did you do, where were you, what did it feel like in your body before and after? What thought or feeling surfaced that you weren't expecting?"},
+  {day:14,week:2,section:6,icon:"🌿",sectionTitle:"Grounding Practices",stage:"Ownership",checkin:"Repeat your grounding practice — this time with your phone in another room. Write about what you noticed in the silence.",journalPrompt:"What came up when there was nothing to distract you? What did your body or spirit try to say when you gave it space? Write about the difference between yesterday's practice and today's."},
+  {day:15,week:3,section:7,icon:"🔭",sectionTitle:"Reframe the Narrative",stage:"Reframing",gateQuestion:"Name one thing — even something small — that this painful experience forced you to develop in yourself.",gatePlaceholder:"e.g. discernment, boundaries, faith, self-reliance, compassion…",checkin:"Write honestly about what this experience has cost you — and then, what it has quietly given you.",journalPrompt:"Make two columns in your mind: what this took from you, and what it built in you. Write both lists fully, without rushing to the second one. The losses deserve to be named before the lessons."},
+  {day:16,week:3,section:7,icon:"🔭",sectionTitle:"Reframe the Narrative",stage:"Reframing",checkin:"Write about one value — something you believe in deeply — that this pain clarified or strengthened.",journalPrompt:"What do you now know about what matters to you that you didn't know — or didn't know as clearly — before this happened? How has this pain become a kind of teacher about who you are and what you stand for?"},
+  {day:17,week:3,section:7,icon:"🔭",sectionTitle:"Reframe the Narrative",stage:"Reframing",checkin:"Write a description of the version of you that exists on the other side of this. Who are they? How do they carry themselves?",journalPrompt:"Describe the person you are becoming through this process. Not the person you were before the pain, and not the person defined by it — the person who walked through it. What does that version of you look like, speak like, move through the world like?"},
+  {day:18,week:3,section:8,icon:"🔥",sectionTitle:"Perform a Release Ritual",stage:"Reframing",gateQuestion:"Before you release anything, name it clearly. In one sentence — what exactly are you releasing?",gatePlaceholder:"e.g. I am releasing the belief that I deserved this…",checkin:"Write out everything you are releasing — completely, without holding back. This is the full weight. Get it all out.",journalPrompt:"Write it all. Every resentment, every 'what if,' every way you've replayed it. Every person you've blamed, including yourself. Write until there is nothing left unsaid. This page is the container — let it hold what you've been holding."},
+  {day:19,week:3,section:8,icon:"🔥",sectionTitle:"Perform a Release Ritual",stage:"Reframing",checkin:"Perform your release ritual today. Burn the page, speak the words aloud, release a balloon — make it physical and intentional. Do it slowly.",journalPrompt:"Describe exactly what you did. What did the ritual look like, feel like, sound like? What happened in your body when you said the words: 'I release this pain. I reclaim my peace.'? Did anything surprise you?"},
+  {day:20,week:3,section:8,icon:"🔥",sectionTitle:"Perform a Release Ritual",stage:"Reframing",checkin:"Write about the space that now exists where the weight used to be. What do you notice in that space?",journalPrompt:"What does the absence of that weight feel like? It might feel like relief, or strange, or even a little empty — all of that is honest. Write about what you notice now that you've let something go. What wants to move into that space?"},
+  {day:21,week:3,section:9,icon:"🤝",sectionTitle:"Engage in Community Healing",stage:"Reframing",gateQuestion:"Who is one person in your life who has earned the right to hear part of this story?",gatePlaceholder:"e.g. Pastor Bouie, a close friend, my therapist…",checkin:"Reach out to that person today. Share what you're comfortable sharing — you don't have to share everything. Then come back and write.",journalPrompt:"Who did you reach out to, and what did you share? What did it feel like to let someone else hold part of this with you? What did their presence — even just their listening — give you that you couldn't give yourself?"},
+  {day:22,week:4,section:10,icon:"🌱",sectionTitle:"Replace Old Patterns",stage:"Integration",gateQuestion:"What is one thought pattern that keeps pulling you back into the pain — almost automatically?",gatePlaceholder:"e.g. 'They'll never change.' / 'I should have known.' / 'I'm not enough.'",checkin:"Today, just notice when the old pattern shows up. Don't fight it — just observe it like a cloud passing. Write down every time it appeared.",journalPrompt:"What did you notice today? How many times did the old thought come up, and in what situations? What triggered it? Write without judgment — you're a scientist observing data, not a judge pronouncing guilt."},
+  {day:23,week:4,section:10,icon:"🌱",sectionTitle:"Replace Old Patterns",stage:"Integration",checkin:"Write a new affirmation to replace the pattern you observed yesterday. Say it out loud three times. Notice how your body responds.",journalPrompt:"Write your new affirmation and explain why you chose those words. What does your body do when you say it? Does it feel true, or does part of you resist it? What would it take to believe it fully?"},
+  {day:24,week:4,section:10,icon:"🌱",sectionTitle:"Replace Old Patterns",stage:"Integration",checkin:"When the old pattern arises today, speak your affirmation instead — out loud if possible. Write about what happens each time.",journalPrompt:"What was it like to consciously redirect the thought? Did the affirmation feel hollow, or did it start to land? Write about the gap between what you say and what you believe — and what it would mean to close that gap."},
+  {day:25,week:4,section:10,icon:"🌱",sectionTitle:"Replace Old Patterns",stage:"Integration",checkin:"Reflect on the last four days. Which affirmation felt most true? Which felt hardest to believe?",journalPrompt:"Look back at what you've written this week. Where did you make real contact with the new belief — even for a moment? Where is the resistance still living? What does that resistance need before it can soften?"},
+  {day:26,week:4,section:11,icon:"🙏",sectionTitle:"Express Gratitude",stage:"Integration",gateQuestion:"What is one strength or quality you are grateful this journey did not break?",gatePlaceholder:"e.g. my faith, my ability to love, my sense of humor, my will…",checkin:"Write a full gratitude list — people, lessons, moments, qualities in yourself that this journey has revealed or confirmed.",journalPrompt:"Don't write a polished list. Write a real one. Start with the obvious things and keep going until you reach the ones that surprise you. What are you grateful for that you didn't expect to be?"},
+  {day:27,week:4,section:11,icon:"🙏",sectionTitle:"Express Gratitude",stage:"Integration",checkin:"Write a thank-you letter — to yourself, to God, or to both. Let it be honest and full.",journalPrompt:"Begin: 'Dear God / Dear [your name] — thank you for…' Write until you have nothing left to say. Include the hard things you're grateful for — the ones that cost you something to receive."},
+  {day:28,week:4,section:12,icon:"🎶",sectionTitle:"Celebrate Freedom",stage:"Integration",gateQuestion:"What is one thing that brings you genuine joy — something that has nothing to do with this pain?",gatePlaceholder:"e.g. cooking for people I love, playing ball with my sons, good music, being in nature…",checkin:"Do one joyful thing today. Put your phone down during it. Let yourself be fully inside it.",journalPrompt:"Describe what you did in sensory detail — what you saw, heard, felt. What did joy feel like in your body today? When was the last time you let yourself feel it this freely? What made today different?"},
+  {day:29,week:4,section:12,icon:"🎶",sectionTitle:"Celebrate Freedom",stage:"Integration",checkin:"Do something creative or expressive today — music, movement, cooking, art, writing. Let it be for no one but you.",journalPrompt:"What did you create or express today? What came out of you that surprised you? What does it feel like to make something — to be a creator rather than someone something was done to?"},
+  {day:30,week:4,section:13,icon:"⭐",sectionTitle:"Commit to Ongoing Practice",stage:"Integration",gateQuestion:"What would it mean for you to truly live free from this? What does that version of your life look like?",gatePlaceholder:"e.g. I show up without guarding my heart. I'm fully present with my sons…",checkin:"Write your forgiveness mantra — a short phrase you can return to whenever the old weight tries to come back. Then write three intentions for how you'll maintain this peace.",journalPrompt:"Write your mantra and explain every word you chose. Why these words? Then write your three intentions — not goals, but ways of being. How will you live differently now? And what will you do on the days when it's hard to remember any of this?"}
+];
+
+const WEEK_META = {
+  1:{label:"Week 1",subtitle:"Awareness & Acknowledgment",stage:"Awareness"},
+  2:{label:"Week 2",subtitle:"Ownership & Empathy",stage:"Ownership"},
+  3:{label:"Week 3",subtitle:"Reframing & Release",stage:"Reframing"},
+  4:{label:"Week 4",subtitle:"Integration & Gratitude",stage:"Integration"}
+};
+
+const SECTION_META = {
+  1:{title:"Identify the Pain",icon:"🕯️"},2:{title:"Connect with Emotions",icon:"🌊"},
+  3:{title:"Seek Cultural & Historical Context",icon:"📖"},4:{title:"Reflect on Personal Reactions",icon:"🪞"},
+  5:{title:"Build Empathy",icon:"✉️"},6:{title:"Grounding Practices",icon:"🌿"},
+  7:{title:"Reframe the Narrative",icon:"🔭"},8:{title:"Perform a Release Ritual",icon:"🔥"},
+  9:{title:"Engage in Community Healing",icon:"🤝"},10:{title:"Replace Old Patterns",icon:"🌱"},
+  11:{title:"Express Gratitude",icon:"🙏"},12:{title:"Celebrate Freedom",icon:"🎶"},
+  13:{title:"Commit to Ongoing Practice",icon:"⭐"}
+};
+
+const WT = {
+  1:{accent:"#E8843A",soft:"#FDE9CE",bg:"#FFF8ED",text:"#7A3B10",g1:"#FFD99A",g2:"#F9A64A"},
+  2:{accent:"#2E9E68",soft:"#C6F0DA",bg:"#EDFAF3",text:"#145A35",g1:"#A8ECC8",g2:"#3DC87A"},
+  3:{accent:"#3A71E8",soft:"#C8DCFF",bg:"#EDF4FF",text:"#1A3578",g1:"#A4C4FF",g2:"#4A8AFF"},
+  4:{accent:"#9A3AE8",soft:"#E4C8FF",bg:"#F8EEFF",text:"#4A1878",g1:"#D9AAFF",g2:"#AA4AFF"}
+};
+
+function grad(w){return `linear-gradient(135deg,${WT[w].g1},${WT[w].g2})`;}
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+const ls = {
+  get:(k,d)=>{try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch{return d;}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+};
+
+let currentDay = ls.get('rf_day',1);
+let unlockedSections = ls.get('rf_unlocked_sections',[]);
+let completedDays = ls.get('rf_completed_days',[]);
+let journalEntries = ls.get('rf_journal_days',{});
+let activeWeek = 1;
+let currentJournalDay = null;
+let pendingGateSection = null;
+
+// ── COMPUTED ─────────────────────────────────────────────────────────────────
+function pct(){return Math.round(completedDays.length/30*100);}
+function journalsWritten(){return Object.values(journalEntries).filter(e=>e&&e.journal&&e.journal.trim()).length;}
+function reflectionsReceived(){return Object.values(journalEntries).filter(e=>e&&e.reflection).length;}
+function todayData(){return DAYS.find(d=>d.day===currentDay)||DAYS[DAYS.length-1];}
+function isSectionUnlocked(sid){return unlockedSections.includes(sid);}
+function isSectionFirstDay(d){return DAYS.filter(x=>x.section===d.section)[0].day===d.day;}
+function isDayAccessible(d){
+  if(d.day===1)return true;
+  const first=isSectionFirstDay(d);
+  if(!isSectionUnlocked(d.section))return first&&completedDays.includes(d.day-1);
+  return completedDays.includes(d.day-1);
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────────────────
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-pill').forEach(p=>{
+    if(p.textContent.toLowerCase().includes(name.slice(0,3)))p.classList.add('active');
+  });
+  if(name==='journey')renderJourney();
+  if(name==='progress')renderProgress();
+}
+
+// ── RENDER HOME ──────────────────────────────────────────────────────────────
+function renderHome(){
+  const td=todayData(),t=WT[td.week];
+  document.getElementById('day-counter').textContent=`Day ${currentDay} of 30`;
+
+  // logo bug gradient
+  document.getElementById('logo-bug').style.background=grad(td.week);
+
+  // hero
+  const hc=document.getElementById('hero-card');
+  hc.style.background=grad(td.week);
+  document.getElementById('hero-badges').innerHTML=
+    [`📅 Day ${currentDay}`,`✅ ${pct()}% done`,`✏️ ${journalsWritten()} entries`]
+    .map(b=>`<span class="hero-badge">${b}</span>`).join('');
+
+  // today band
+  document.getElementById('today-band').innerHTML=`
+    <span style="font-size:0.68rem;font-weight:700;color:${t.text};text-transform:uppercase;letter-spacing:0.1em;">Today's Practice</span>
+    <span style="background:${t.accent};color:white;border-radius:7px;padding:2px 9px;font-size:0.65rem;font-weight:700;">Day ${currentDay}</span>`;
+  document.getElementById('today-band').style.background=t.soft;
+
+  // today row
+  const entry=journalEntries[currentDay]||{};
+  document.getElementById('today-row').innerHTML=`
+    <div style="width:48px;height:48px;border-radius:13px;background:${t.soft};display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">${td.icon}</div>
+    <div>
+      <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;margin-bottom:3px;">${td.sectionTitle}</div>
+      <div style="font-size:0.85rem;color:#6B7280;font-style:italic;line-height:1.5;">${td.checkin}</div>
+    </div>`;
+
+  const btn=document.getElementById('today-btn');
+  btn.style.background=grad(td.week);
+  btn.textContent=entry.journal?'Continue Today\'s Entry →':'Write Today\'s Entry →';
+
+  // progress
+  document.getElementById('prog-meta').textContent=`${completedDays.length}/30 days · ${journalsWritten()} journals · ${reflectionsReceived()} ✨`;
+  const pbar=document.getElementById('prog-bar');
+  pbar.style.width=pct()+'%';
+  pbar.style.background=grad(td.week);
+
+  // week grid
+  const wg=document.getElementById('week-grid');
+  wg.innerHTML=[1,2,3,4].map(wn=>{
+    const t2=WT[wn];
+    const wdays=DAYS.filter(d=>d.week===wn);
+    const done=wdays.filter(d=>completedDays.includes(d.day)).length;
+    const p=Math.round(done/wdays.length*100);
+    return`<div class="week-cell" style="border-top-color:${t2.accent}" onclick="showView('journey');setWeek(${wn})">
+      <div class="week-cell-label" style="color:${t2.accent}">Week ${wn}</div>
+      <div class="week-cell-title">${WEEK_META[wn].stage}</div>
+      <div class="bar-bg" style="background:${t2.soft};height:5px;margin:6px 0;"><div class="bar-fill" style="width:${p}%;background:${grad(wn)};height:5px;"></div></div>
+      <div class="week-cell-meta">${done}/${wdays.length} days</div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER JOURNEY ────────────────────────────────────────────────────────────
+function setWeek(wn){activeWeek=wn;renderJourney();}
+
+function renderJourney(){
+  // tabs
+  const tabs=document.getElementById('week-tabs');
+  tabs.innerHTML=[1,2,3,4].map(wn=>{
+    const t=WT[wn];
+    const active=wn===activeWeek;
+    return`<button class="week-tab${active?' active':''}" onclick="setWeek(${wn})" style="color:${active?t.accent:'#9CA3AF'};border-bottom-color:${active?t.accent:'transparent'};background:${active?t.soft:'transparent'}">Week ${wn} · ${WEEK_META[wn].stage}</button>`;
+  }).join('');
+
+  const content=document.getElementById('journey-content');
+  const weekDays=DAYS.filter(d=>d.week===activeWeek);
+  const sectionIds=[...new Set(weekDays.map(d=>d.section))];
+  const t=WT[activeWeek];
+
+  content.innerHTML=`<h2 style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;">${WEEK_META[activeWeek].subtitle}</h2>`+
+    sectionIds.map(sid=>{
+      const sm=SECTION_META[sid];
+      const sdays=weekDays.filter(d=>d.section===sid);
+      return`<div class="section-wrap">
+        <div class="section-hdr">
+          <div class="section-icon-blob" style="background:${grad(activeWeek)}">${sm.icon}</div>
+          <div>
+            <div class="section-hdr-title">${sm.title}</div>
+            <div class="section-hdr-meta">Days ${sdays[0].day}–${sdays[sdays.length-1].day}</div>
+          </div>
+        </div>
+        ${sdays.map(d=>renderDayCard(d)).join('')}
+      </div>`;
+    }).join('');
+}
+
+function renderDayCard(d){
+  const t=WT[d.week];
+  const accessible=isDayAccessible(d);
+  const isToday=currentDay===d.day;
+  const done=completedDays.includes(d.day);
+  const entry=journalEntries[d.day]||{};
+  const hasJ=!!(entry.journal&&entry.journal.trim());
+  const hasR=!!entry.reflection;
+
+  const badges=`
+    ${isToday&&!done?`<span class="badge" style="background:${t.accent};color:white;">TODAY</span>`:''}
+    ${done?`<span class="badge" style="background:${t.soft};color:${t.text};">✓ DONE</span>`:''}
+    ${hasR?'<span style="font-size:0.8rem;">✨</span>':''}
+  `;
+
+  const actions=accessible?`
+    <div class="day-actions">
+      <button class="day-btn${hasJ?' has-journal':''}"
+        style="${hasJ?`--accent:${t.accent};--accent-soft:${t.soft};--accent-border:${t.accent}88;background:${t.soft};border-color:${t.accent}80;color:${t.accent};`:''}"
+        onclick="openDayJournal(${d.day})">${hasJ?'✏️ View Entry':'✏️ Write Entry'}</button>
+      <button class="day-btn complete-btn${done?' done':''}"
+        style="${done?`background:${grad(d.week)};border-color:transparent;color:white;`:''}"
+        onclick="toggleComplete(${d.day})">${done?'✓ Complete':'Mark Done'}</button>
+    </div>`
+    :`<div class="locked-msg">Complete previous day to unlock.</div>`;
+
+  return`<div class="day-card${isToday?' today':''}${!accessible?' locked':''}" 
+    style="border-top-color:${done?t.accent:isToday?t.accent+'88':'#F0F0F0'};border-color:${isToday?t.accent+'55':done?t.accent+'35':'transparent'};">
+    <div class="day-card-row">
+      <div class="day-icon-blob" style="background:${done?grad(d.week):t.soft};">${d.icon}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="badge-row">
+          <span class="day-num" style="color:${t.accent};">Day ${d.day}</span>
+          ${badges}
+        </div>
+        <div class="day-checkin">${d.checkin}</div>
+        ${actions}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── RENDER PROGRESS ───────────────────────────────────────────────────────────
+function renderProgress(){
+  const p=pct(),jw=journalsWritten(),rr=reflectionsReceived();
+  document.getElementById('progress-sub').textContent=`Day ${currentDay} of 30 · ${completedDays.length} days · ${jw} journals · ${rr} reflections`;
+
+  // ring
+  const circ=2*Math.PI*72;
+  document.getElementById('ring-circle').setAttribute('stroke-dashoffset',circ*(1-p/100));
+  document.getElementById('ring-pct').textContent=p+'%';
+
+  // stats
+  document.getElementById('stat-grid').innerHTML=[
+    ['📅','Day',currentDay],['✅','Days Done',completedDays.length],['✏️','Journals',jw]
+  ].map(([icon,label,val])=>`
+    <div class="stat-cell">
+      <div class="stat-icon">${icon}</div>
+      <div class="stat-val">${val}</div>
+      <div class="stat-label">${label}</div>
+    </div>`).join('');
+
+  // week bars
+  document.getElementById('week-bars').innerHTML=[1,2,3,4].map(wn=>{
+    const t=WT[wn];
+    const wdays=DAYS.filter(d=>d.week===wn);
+    const done=wdays.filter(d=>completedDays.includes(d.day)).length;
+    const journals=wdays.filter(d=>journalEntries[d.day]&&journalEntries[d.day].journal&&journalEntries[d.day].journal.trim()).length;
+    const refls=wdays.filter(d=>journalEntries[d.day]&&journalEntries[d.day].reflection).length;
+    const p2=Math.round(done/wdays.length*100);
+    return`<div class="week-bar-card">
+      <div class="week-bar-top">
+        <div style="display:flex;align-items:center;">
+          <span class="week-dot" style="background:${grad(wn)};"></span>
+          <span style="font-family:'Fraunces',serif;font-size:0.95rem;font-weight:700;">Week ${wn}</span>
+          <span style="font-size:0.78rem;color:#9CA3AF;margin-left:6px;">${WEEK_META[wn].stage}</span>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.75rem;color:${t.accent};font-weight:700;">${done}/${wdays.length} days</div>
+          <div style="font-size:0.68rem;color:#9CA3AF;">${journals} entries · ${refls} ✨</div>
+        </div>
+      </div>
+      <div class="bar-bg" style="background:${t.soft};">
+        <div class="bar-fill" style="width:${p2}%;background:${grad(wn)};"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('refl-count').textContent=rr;
+  document.getElementById('courage-msg').hidden=completedDays.length===0;
+}
+
+// ── GATE MODAL ────────────────────────────────────────────────────────────────
+function openGate(sid){
+  const d=DAYS.find(x=>x.section===sid&&x.gateQuestion);
+  if(!d)return;
+  pendingGateSection=sid;
+  const t=WT[d.week];
+  document.getElementById('gate-header').style.background=grad(d.week);
+  document.getElementById('gate-label').textContent=`Before you enter · Section ${sid}`;
+  document.getElementById('gate-title').textContent=`${d.icon} ${SECTION_META[sid].title}`;
+  document.getElementById('gate-question').textContent=d.gateQuestion;
+  const ta=document.getElementById('gate-answer');
+  ta.value='';ta.placeholder=d.gatePlaceholder;
+  ta.style.borderColor='#E5E7EB';ta.style.background='#FAFAFA';
+  const btn=document.getElementById('gate-submit');
+  btn.style.background=t.accent;btn.style.opacity='0.4';btn.style.cursor='default';
+  openModal('gate-modal');
+}
+
+function onGateInput(){
+  const v=document.getElementById('gate-answer').value.trim();
+  const btn=document.getElementById('gate-submit');
+  const sid=pendingGateSection;
+  const d=DAYS.find(x=>x.section===sid);
+  const t=WT[d?d.week:1];
+  btn.style.opacity=v?'1':'0.4';btn.style.cursor=v?'pointer':'default';
+  const ta=document.getElementById('gate-answer');
+  ta.style.borderColor=v?t.accent:'#E5E7EB';
+  ta.style.background=v?WT[d.week].soft:'#FAFAFA';
+}
+
+function submitGate(){
+  const v=document.getElementById('gate-answer').value.trim();
+  if(!v)return;
+  const sid=pendingGateSection;
+  if(!unlockedSections.includes(sid)){unlockedSections.push(sid);ls.set('rf_unlocked_sections',unlockedSections);}
+  closeModal('gate-modal');
+  const firstDay=DAYS.find(d=>d.section===sid);
+  if(firstDay)openDayJournal(firstDay.day);
+}
+
+// ── JOURNAL MODAL ─────────────────────────────────────────────────────────────
+function openTodayJournal(){openDayJournal(currentDay);}
+
+function openDayJournal(dayNum){
+  const d=DAYS.find(x=>x.day===dayNum);
+  if(!d)return;
+  // Gate check
+  if(isSectionFirstDay(d)&&!isSectionUnlocked(d.section)){openGate(d.section);return;}
+  if(!isSectionUnlocked(d.section))return;
+
+  currentJournalDay=dayNum;
+  const t=WT[d.week];
+  const entry=journalEntries[dayNum]||{};
+
+  document.getElementById('journal-header').style.background=grad(d.week);
+  document.getElementById('journal-label').textContent=`Day ${dayNum} · ${d.sectionTitle}`;
+  document.getElementById('journal-title').textContent=`${d.icon} Day ${dayNum}`;
+
+  const task=document.getElementById('journal-task');
+  task.textContent=d.checkin;
+  task.style.background=t.soft;task.style.color=t.text;
+
+  document.getElementById('journal-prompt').textContent=`"${d.journalPrompt}"`;
+
+  const ta=document.getElementById('journal-text');
+  ta.value=entry.journal||'';
+  ta.style.borderColor=ta.value.trim()?t.accent:'#E5E7EB';
+  ta.style.background=ta.value.trim()?t.bg:'#FAFAFA';
+
+  const rb=document.getElementById('reflection-box');
+  if(entry.reflection){
+    rb.hidden=false;
+    rb.style.background=`linear-gradient(135deg,${t.soft},white)`;
+    rb.style.borderColor=t.accent+'40';
+    document.getElementById('refl-day-label').textContent=`Reflection — Day ${dayNum}`;
+    document.getElementById('refl-day-label').style.color=t.accent;
+    document.getElementById('reflection-text').textContent=entry.reflection;
+  } else {
+    rb.hidden=true;
+  }
+
+  document.getElementById('journal-error').hidden=true;
+
+  const reflBtn=document.getElementById('reflect-btn');
+  reflBtn.textContent=entry.reflection?'✨ Reflect Again':'✨ Get AI Reflection';
+  reflBtn.style.background=t.soft;
+  reflBtn.style.color=t.accent;
+  reflBtn.style.borderColor=t.accent+'60';
+
+  document.getElementById('journal-save-btn').style.background=t.accent;
+
+  openModal('journal-modal');
+}
+
+function onJournalInput(){
+  const ta=document.getElementById('journal-text');
+  const d=DAYS.find(x=>x.day===currentJournalDay);
+  if(!d)return;
+  const t=WT[d.week];
+  ta.style.borderColor=ta.value.trim()?t.accent:'#E5E7EB';
+  ta.style.background=ta.value.trim()?t.bg:'#FAFAFA';
+}
+
+function saveJournal(){
+  if(currentJournalDay===null)return;
+  const text=document.getElementById('journal-text').value;
+  const refl=document.getElementById('reflection-text').textContent;
+  if(!journalEntries[currentJournalDay])journalEntries[currentJournalDay]={};
+  journalEntries[currentJournalDay].journal=text;
+  if(refl)journalEntries[currentJournalDay].reflection=refl;
+  ls.set('rf_journal_days',journalEntries);
+  closeModal('journal-modal');
+  renderHome();
+  if(document.getElementById('view-journey').classList.contains('active'))renderJourney();
+}
+
+async function doReflect(){
+  const text=document.getElementById('journal-text').value.trim();
+  const errEl=document.getElementById('journal-error');
+  if(!text){errEl.textContent='Write something in your journal first.';errEl.hidden=false;return;}
+  errEl.hidden=true;
+  const btn=document.getElementById('reflect-btn');
+  const orig=btn.textContent;
+  btn.innerHTML='<span class="loader"></span> Reflecting…';
+  btn.disabled=true;
+
+  const d=DAYS.find(x=>x.day===currentJournalDay);
+  try{
+    const res=await fetch('/api/reflect',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        day: d.day,
+        sectionTitle: d.sectionTitle,
+        stage: d.stage,
+        journalText: text
+      })
+    });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||'Server error');
+    const refl=data.reflection||'Something went wrong. Please try again.';
+
+    if(!journalEntries[currentJournalDay])journalEntries[currentJournalDay]={};
+    journalEntries[currentJournalDay].journal=document.getElementById('journal-text').value;
+    journalEntries[currentJournalDay].reflection=refl;
+    ls.set('rf_journal_days',journalEntries);
+
+    const rb=document.getElementById('reflection-box');
+    const t=WT[d.week];
+    rb.hidden=false;
+    rb.style.background=`linear-gradient(135deg,${t.soft},white)`;
+    rb.style.borderColor=t.accent+'40';
+    document.getElementById('refl-day-label').textContent=`Reflection — Day ${d.day}`;
+    document.getElementById('refl-day-label').style.color=t.accent;
+    document.getElementById('reflection-text').textContent=refl;
+    btn.textContent='✨ Reflect Again';
+  }catch(e){
+    errEl.textContent="Couldn't reach the reflection service. Try again.";errEl.hidden=false;
+    btn.textContent=orig;
+  }
+  btn.disabled=false;
+}
+
+// ── COMPLETE ──────────────────────────────────────────────────────────────────
+function toggleComplete(dayNum){
+  if(completedDays.includes(dayNum)){
+    completedDays=completedDays.filter(d=>d!==dayNum);
+  } else {
+    completedDays.push(dayNum);
+    const next=Math.min(dayNum+1,30);
+    currentDay=next;ls.set('rf_day',next);
+  }
+  ls.set('rf_completed_days',completedDays);
+  renderHome();
+  renderJourney();
+}
+
+// ── MODALS ────────────────────────────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function handleOverlayClick(e,id){if(e.target.id===id)closeModal(id);}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderHome();
+</script>
+</body>
+</html>
