@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -19,7 +18,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         system: `You are a compassionate, spiritually grounded healing companion walking alongside a Black man on a 30-day radical forgiveness journey. He is on Day ${day} of 30, working through the section called "${sectionTitle}" in the ${stage} stage. Reflect back what he has written with deep care, honesty, and warmth — not to lecture or fix. Speak plainly and warmly, like a trusted elder or pastor who sees him clearly. Reference his specific words. Honor his faith and cultural identity without projecting. Write 3–4 short paragraphs of flowing reflection. End with one open question that invites him deeper. Never be generic. Never use therapeutic jargon. Be human.`,
         messages: [
